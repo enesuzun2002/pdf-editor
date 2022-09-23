@@ -1,8 +1,13 @@
 package com.enesmuratuzun.view;
 
+import com.enesmuratuzun.model.Preferences;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDDocumentInformation;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 public class PDFInformation {
     private JButton okButton;
@@ -11,7 +16,6 @@ public class PDFInformation {
     private JTextField authorTextField;
     private JTextField creatorTextField;
     private JTextField producerTextField;
-    private JTextField dateTextField;
     private JTextField keywordsTextField;
     private JPanel pdfInformationPanel;
 
@@ -23,11 +27,32 @@ public class PDFInformation {
         frame.setVisible(true);
     }
 
+    private void setDocumentInformation(){
+        PDDocumentInformation pdDocumentInformation = Preferences.document.getDocumentInformation();
+        pdDocumentInformation.setAuthor(authorTextField.getText());
+        pdDocumentInformation.setCreator(creatorTextField.getText());
+        pdDocumentInformation.setKeywords(keywordsTextField.getText());
+        pdDocumentInformation.setTitle(titleTextField.getText());
+        pdDocumentInformation.setSubject(subjectTextField.getText());
+        pdDocumentInformation.setProducer(producerTextField.getText());
+
+    }
+
+    private void setInitialDocumentInformation(){
+        authorTextField.setText(Preferences.document.getDocumentInformation().getAuthor());
+        creatorTextField.setText(Preferences.document.getDocumentInformation().getCreator());
+        keywordsTextField.setText(Preferences.document.getDocumentInformation().getKeywords());
+        titleTextField.setText(Preferences.document.getDocumentInformation().getTitle());
+        subjectTextField.setText(Preferences.document.getDocumentInformation().getSubject());
+        producerTextField.setText(Preferences.document.getDocumentInformation().getProducer());
+    }
+
     public PDFInformation() {
+        setInitialDocumentInformation();
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Button Pressed!");
+                setDocumentInformation();
             }
         });
     }
