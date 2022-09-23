@@ -1,9 +1,9 @@
 package com.enesmuratuzun;
 
-import com.enesmuratuzun.view.PDFInformation;
+import com.enesmuratuzun.view.PDFView;
 
 public class Main {
     public static void main(String[] args) {
-        PDFInformation.main(null);
+        PDFView.main(null);
     }
 }
