@@ -19,9 +19,10 @@ public class PDFInformation {
     private JTextField producerTextField;
     private JTextField keywordsTextField;
     private JPanel pdfInformationPanel;
+    private static JFrame frame;
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("PDFInformation");
+        frame = new JFrame("PDFInformation");
         frame.setContentPane(new PDFInformation().pdfInformationPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
@@ -45,9 +46,12 @@ public class PDFInformation {
         try {
             document.save(Preferences.document.getPath().replaceAll("\\.pdf", "-new.pdf"));
             document.close();
+            JOptionPane.showMessageDialog(frame, "PDF information successfully edited and saved in same directory");
+            frame.dispose();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
 
     }
 
