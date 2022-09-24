@@ -3,6 +3,7 @@ package com.enesmuratuzun.view;
 import com.enesmuratuzun.model.Preferences;
 import com.enesmuratuzun.util.PDFFunctions;
 import com.enesmuratuzun.util.SwingFunctions;
+import com.enesmuratuzun.view.dialog.PDFExportDone;
 import com.enesmuratuzun.view.dialog.PDFNull;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.tools.imageio.ImageIOUtil;
@@ -95,7 +96,7 @@ public class PDFView {
                         for (int i = 0; i < bufferedImages.size(); i++) {
                             ImageIOUtil.writeImage(bufferedImages.get(i), file.getPath() + "/" + Preferences.document.getName().replaceAll("\\.pdf", "-" + i + ".png"), 300);
                         }
-
+                        PDFExportDone.main(null, "images to " + file.getPath());
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
