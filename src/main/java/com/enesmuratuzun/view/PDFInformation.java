@@ -1,14 +1,11 @@
 package com.enesmuratuzun.view;
 
 import com.enesmuratuzun.model.Preferences;
-import org.apache.pdfbox.Loader;
-import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 public class PDFInformation {
     private JButton okButton;
@@ -30,44 +27,23 @@ public class PDFInformation {
     }
 
     private void setDocumentInformation() {
-        PDDocument document;
-        try {
-            document = Loader.loadPDF(Preferences.document);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        PDDocumentInformation pdDocumentInformation = document.getDocumentInformation();
+        PDDocumentInformation pdDocumentInformation = Preferences.documentPDF.getDocumentInformation();
         pdDocumentInformation.setAuthor(authorTextField.getText());
         pdDocumentInformation.setCreator(creatorTextField.getText());
         pdDocumentInformation.setKeywords(keywordsTextField.getText());
         pdDocumentInformation.setTitle(titleTextField.getText());
         pdDocumentInformation.setSubject(subjectTextField.getText());
         pdDocumentInformation.setProducer(producerTextField.getText());
-        try {
-            document.save(Preferences.document.getPath().replaceAll("\\.pdf", "-new.pdf"));
-            document.close();
-            JOptionPane.showMessageDialog(frame, "PDF information successfully edited and saved in same directory");
-            frame.dispose();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-
+        frame.dispose();
     }
 
     private void setInitialDocumentInformation() {
-        PDDocument document;
-        try {
-            document = Loader.loadPDF(Preferences.document);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        authorTextField.setText(document.getDocumentInformation().getAuthor());
-        creatorTextField.setText(document.getDocumentInformation().getCreator());
-        keywordsTextField.setText(document.getDocumentInformation().getKeywords());
-        titleTextField.setText(document.getDocumentInformation().getTitle());
-        subjectTextField.setText(document.getDocumentInformation().getSubject());
-        producerTextField.setText(document.getDocumentInformation().getProducer());
+        authorTextField.setText(Preferences.documentPDF.getDocumentInformation().getAuthor());
+        creatorTextField.setText(Preferences.documentPDF.getDocumentInformation().getCreator());
+        keywordsTextField.setText(Preferences.documentPDF.getDocumentInformation().getKeywords());
+        titleTextField.setText(Preferences.documentPDF.getDocumentInformation().getTitle());
+        subjectTextField.setText(Preferences.documentPDF.getDocumentInformation().getSubject());
+        producerTextField.setText(Preferences.documentPDF.getDocumentInformation().getProducer());
     }
 
     public PDFInformation() {

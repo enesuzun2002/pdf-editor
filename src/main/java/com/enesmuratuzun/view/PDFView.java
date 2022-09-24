@@ -2,9 +2,11 @@ package com.enesmuratuzun.view;
 
 import com.enesmuratuzun.model.Preferences;
 import com.enesmuratuzun.util.SwingFunctions;
+import org.apache.pdfbox.Loader;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 
 public class PDFView {
     private JList list1;
@@ -39,9 +41,23 @@ public class PDFView {
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = jfc.getSelectedFile();
                 Preferences.document = file;
+                try {
+                    Preferences.documentPDF = Loader.loadPDF(file);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+        JMenuItem fileSaveMenuItem = SwingFunctions.createMenuItem("Save", "Save modified pdf file", e -> {
+            try {
+                Preferences.documentPDF.save(Preferences.document.getPath().replaceAll("\\.pdf", "-new.pdf"));
+                JOptionPane.showMessageDialog(frame, "Modified pdf saved as " + Preferences.document.getName().replaceAll("\\.pdf", "-new.pdf"));
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
         });
         fileMenu.add(fileChooseMenuItem);
+        fileMenu.add(fileSaveMenuItem);
         return fileMenu;
     }
 
