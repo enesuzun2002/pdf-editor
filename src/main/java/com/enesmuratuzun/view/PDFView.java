@@ -3,8 +3,9 @@ package com.enesmuratuzun.view;
 import com.enesmuratuzun.model.Preferences;
 import com.enesmuratuzun.util.PDFFunctions;
 import com.enesmuratuzun.util.SwingFunctions;
+import com.enesmuratuzun.view.dialog.Error;
 import com.enesmuratuzun.view.dialog.PDFExportDone;
-import com.enesmuratuzun.view.dialog.PDFNull;
+import com.enesmuratuzun.view.dialog.SplitPDF;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.tools.imageio.ImageIOUtil;
 
@@ -73,7 +74,7 @@ public class PDFView {
         JMenu fileInfoMenu = new JMenu("About");
         JMenuItem infoEditorMenuItem = SwingFunctions.createMenuItem("Edit", "Edit Information", e -> {
             if (Preferences.document == null) {
-                PDFNull.main(null);
+                Error.main(null, "Please open a PDF file.");
             } else {
                 PDFInformation.main(null);
             }
@@ -102,9 +103,17 @@ public class PDFView {
                     }
                 }
             } else {
-                PDFNull.main(null);
+                Error.main(null, "Please open a PDF file.");
             }
         });
+        JMenuItem splitMenuItem = SwingFunctions.createMenuItem("Split PDF file", "Split PDF file", e -> {
+            if (Preferences.document != null) {
+                SplitPDF.main(null);
+            } else {
+                Error.main(null, "Please open a PDF file.");
+            }
+        });
+        fileSaveAsMenu.add(splitMenuItem);
         fileSaveAsMenu.add(imagesMenuItem);
         return fileSaveAsMenu;
     }
